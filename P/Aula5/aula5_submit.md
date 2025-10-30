@@ -122,7 +122,7 @@ DepartmentLocation = π department.Dnumber, Dname, Dlocation (
 ### *b)* 
 
 ```
-... Write here your answer ...
+γ codProd; media_unidades <- avg(unidades) (item)
 ```
 
 
@@ -138,7 +138,7 @@ DepartmentLocation = π department.Dnumber, Dname, Dlocation (
 ### *d)* 
 
 ```
-... Write here your answer ...
+π nif, nome, codProd, unidades (fornecedor ⨝ encomenda ⨝ item)
 ```
 
 
@@ -157,7 +157,9 @@ DepartmentLocation = π department.Dnumber, Dname, Dlocation (
 ### *b)* 
 
 ```
-... Write here your answer ...
+γ especialidade; numprescricoes <- count(numPresc) (
+	medico ⨝ prescricao
+)
 ```
 
 
@@ -174,7 +176,9 @@ DepartmentLocation = π department.Dnumber, Dname, Dlocation (
 ### *d)* 
 
 ```
-... Write here your answer ...
+π nome (farmaco)-π nomeFarmaco (
+	presc_farmaco ⨝ prescricao ⨝ farmaco
+)
 ```
 
 ### *e)* 

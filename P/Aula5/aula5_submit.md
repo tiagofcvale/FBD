@@ -6,7 +6,6 @@
 ### *a)*
 
 ```
-Write here your answer e.g:
 π Pname, Ssn, Fname, Lname ((employee ⨝ (ρ Ssn←Essn (works_on)) ⨝ Pno = Pnumber project))
 ```
 
@@ -192,5 +191,8 @@ DepartmentLocation = π department.Dnumber, Dname, Dlocation (
 ### *f)* 
 
 ```
-... Write here your answer ...
+π p1.numUtente (
+    σ p1.numUtente = p2.numUtente ∧ p1.numMedico ≠ p2.numMedico 
+    (ρ p1 (prescricao) x ρ p2 (prescricao))
+)
 ```

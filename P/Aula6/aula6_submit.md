@@ -196,55 +196,103 @@ SELECT stor_name FROM stores AS store
 ##### *a)*
 
 ```
-... Write here your answer ...
+SELECT p.Pname, e.Ssn, e.Fname, e.Lname
+FROM employee e
+JOIN works_on w ON e.Ssn = w.Essn
+JOIN project p ON w.Pno = p.Pnumber;
+
 ```
 
 ##### *b)* 
 
 ```
-... Write here your answer ...
+SELECT e.Fname, e.Minit, e.Lname
+FROM employee e
+JOIN employee boss ON e.Super_ssn = boss.Ssn
+WHERE boss.Fname = 'Carlos' AND boss.Minit = 'D' AND boss.Lname = 'Gomes';
+
 ```
 
 ##### *c)* 
 
 ```
-... Write here your answer ...
+SELECT p.Pname, SUM(w.Hours) AS TotalHours
+FROM project p
+JOIN works_on w ON p.Pnumber = w.Pno
+GROUP BY p.Pname;
+
 ```
 
 ##### *d)* 
 
 ```
-... Write here your answer ...
+SELECT e.Fname, e.Lname, p.Pname, w.Hours
+FROM employee e
+JOIN works_on w ON e.Ssn = w.Essn
+JOIN project p ON w.Pno = p.Pnumber
+WHERE e.Dno = 3 AND w.Hours > 20 AND p.Pname = 'Aveiro Digital';
+
+
 ```
 
 ##### *e)* 
 
 ```
-... Write here your answer ...
+SELECT e.Fname, e.Minit, e.Lname
+FROM employee e
+LEFT JOIN works_on w ON e.Ssn = w.Essn
+WHERE w.Pno IS NULL;
+
 ```
 
 ##### *f)* 
 
 ```
-... Write here your answer ...
+SELECT d.Dname, AVG(e.Salary) AS AvgSalary
+FROM department d
+JOIN employee e ON d.Dnumber = e.Dno
+WHERE e.Sex = 'F'
+GROUP BY d.Dname;
+
 ```
 
 ##### *g)* 
 
 ```
-... Write here your answer ...
+SELECT e.Fname, e.Lname
+FROM employee e
+JOIN dependent d ON e.Ssn = d.Essn
+GROUP BY e.Fname, e.Lname
+HAVING COUNT(e.Fname) >= 2;
+
 ```
 
 ##### *h)* 
 
 ```
-... Write here your answer ...
+SELECT e.Fname, e.Lname
+FROM employee e
+JOIN department d ON e.Ssn = d.Mgr_ssn
+LEFT JOIN dependent dep ON e.Ssn = dep.Essn
+WHERE dep.Essn IS NULL;
+
 ```
 
 ##### *i)* 
 
 ```
-... Write here your answer ...
+SELECT pe.Ssn, pe.Fname, pe.Minit, pe.Lname, pe.Address
+FROM (
+    SELECT e.Ssn, e.Fname, e.Minit, e.Lname, e.Address, w.Pno
+    FROM employee e
+    JOIN works_on w ON e.Ssn = w.Essn
+    JOIN project p ON w.Pno = p.Pnumber
+    WHERE p.Plocation = 'Aveiro'
+) AS pe
+JOIN department d ON pe.Dno = d.Dnumber
+JOIN dept_location dl ON d.Dnumber = dl.Dnumber
+WHERE dl.Dlocation != 'Aveiro';
+
 ```
 
 ### 5.2
@@ -262,27 +310,45 @@ SELECT stor_name FROM stores AS store
 ##### *a)*
 
 ```
-... Write here your answer ...
+SELECT f.nome
+FROM fornecedor f
+LEFT JOIN encomenda e ON f.nif = e.fornecedor
+WHERE e.numero IS NULL;
+
 ```
 
 ##### *b)* 
 
 ```
-... Write here your answer ...
+SELECT codProd, AVG(unidades) AS media_unidades
+FROM item
+GROUP BY codProd;
+
 ```
 
 
 ##### *c)* 
 
 ```
-... Write here your answer ...
+SELECT numEnc, AVG(NumProdutos) AS MediaProdutosPorEncomenda
+FROM (
+    SELECT numEnc, COUNT(codProd) AS NumProdutos
+    FROM item
+    GROUP BY numEnc
+) AS subquery
+GROUP BY numEnc;
+
 ```
 
 
 ##### *d)* 
 
 ```
-... Write here your answer ...
+SELECT f.nif, f.nome, i.codProd, i.unidades
+FROM fornecedor f
+JOIN encomenda e ON f.nif = e.fornecedor
+JOIN item i ON e.numero = i.numEnc;
+
 ```
 
 ### 5.3
@@ -300,37 +366,66 @@ SELECT stor_name FROM stores AS store
 ##### *a)*
 
 ```
-... Write here your answer ...
+SELECT p.nome
+FROM paciente p
+LEFT JOIN prescricao pres ON p.numUtente = pres.numUtente
+WHERE pres.numUtente IS NULL;
+
 ```
 
 ##### *b)* 
 
 ```
-... Write here your answer ...
+SELECT m.especialidade, COUNT(p.numPresc) AS numprescricoes
+FROM medico m
+JOIN prescricao p ON m.numSNS = p.numMedico
+GROUP BY m.especialidade;
+
 ```
 
 
 ##### *c)* 
 
 ```
-... Write here your answer ...
+SELECT f.nome, COUNT(pf.numPresc) AS NumPrescricoes
+FROM presc_farmaco pf
+JOIN farmaco fa ON pf.numRegFarm = fa.numRegFarm
+JOIN prescricao presc ON pf.numPresc = presc.numPresc
+JOIN farmacia f ON presc.farmacia = f.nome
+GROUP BY f.nome;
+
 ```
 
 
 ##### *d)* 
 
 ```
-... Write here your answer ...
+SELECT f.nome
+FROM farmaco f
+WHERE f.nome NOT IN (
+    SELECT pf.nomeFarmaco
+    FROM presc_farmaco pf
+    JOIN prescricao p ON pf.numPresc = p.numPresc
+);
+
 ```
 
 ##### *e)* 
 
 ```
-... Write here your answer ...
+SELECT fa.nome, COUNT(*) AS NumFarmacos
+FROM farmaco f
+JOIN farmaceutica fa ON f.numRegFarm = fa.numReg
+GROUP BY fa.nome;
+
 ```
 
 ##### *f)* 
 
 ```
-... Write here your answer ...
+SELECT DISTINCT p1.numUtente
+FROM prescricao p1
+JOIN prescricao p2 ON p1.numUtente = p2.numUtente
+WHERE p1.numMedico <> p2.numMedico;
+
 ```

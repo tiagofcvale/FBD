@@ -170,13 +170,24 @@ SELECT stor_name FROM stores AS store
 ### *s)* Nome dos títulos que nunca foram vendidos na loja “Bookbeat”;
 
 ```
-... Write here your answer ...
+SELECT t.title
+FROM titles AS t
+LEFT JOIN sales AS sal ON t.title_id = sal.title_id
+LEFT JOIN stores AS stor ON stor.stor_id = sal.stor_id
+WHERE stor.stor_name != 'Bookbeat' OR stor.stor_name IS NULL;
 ```
 
 ### *t)* Para cada editora, a lista de todas as lojas que nunca venderam títulos dessa editora; 
 
 ```
-... Write here your answer ...
+SELECT p.pub_name, stor.stor_name
+FROM publishers AS p
+LEFT JOIN titles AS t ON t.pub_id = p.pub_id
+LEFT JOIN sales AS sal ON sal.title_id = t.title_id
+LEFT JOIN stores AS stor ON stor.stor_id = sal.stor_id
+WHERE sal.title_id IS NULL
+GROUP BY p.pub_name, stor.stor_name;
+
 ```
 
 ## Problema 6.2

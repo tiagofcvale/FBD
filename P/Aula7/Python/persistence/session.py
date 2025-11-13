@@ -18,7 +18,7 @@ def conn_string() -> str:
     username = config["database"]["username"]
     password = config["database"]["password"]
 
-    return f"DRIVER={{SQL Server}};SERVER={server};DATABASE={db_name};UID={username};PWD={password};ThrustCertificate=yes;"
+    return f"DRIVER={{/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.6.1}};SERVER={server};DATABASE={db_name};UID={username};PWD={password};ThrustCertificate=yes;"
 
 
 def create_connection():
